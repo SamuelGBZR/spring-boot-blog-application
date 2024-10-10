@@ -12,15 +12,35 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class WebSecurityConfig {
     
-    private static final String[] WHITELIST = { "/register", "/login", "/posts/*", "/h2-console/*", "/" };
+    private static final String[] WHITELIST = { "/register", "/posts/*", "/h2-console/*", "/" };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         
-        http.authorizeHttpRequests(
-                auth -> auth.requestMatchers(WHITELIST).permitAll().anyRequest().authenticated());
-        http.csrf(csrf -> csrf.disable());
-        http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
+        http.authorizeHttpRequests(auth -> auth
+            .requestMatchers(WHITELIST)
+            .permitAll()
+            .anyRequest()
+            .authenticated()
+        );
+        http.csrf(csrf -> csrf
+            .disable()
+        );
+        http.headers(headers -> headers
+            .frameOptions(frame -> frame
+                .disable()
+            )
+        );
+        http.formLogin(login -> login
+            .loginPage("/login")
+            .loginProcessingUrl("/login")
+            .usernameParameter("email")
+            .passwordParameter("password")
+            .defaultSuccessUrl("/", true)
+            .failureUrl("/login?error")
+            .permitAll()
+        );
+
         return http.build();
     }
 }
