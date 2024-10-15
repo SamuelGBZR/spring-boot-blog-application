@@ -13,7 +13,7 @@
     <div class="container">
       <h1>Spring Boot Blog Application</h1>
       <hr />
-      <ul>
+      <ul sec:authorize="isAuthenticated()">
         <li><a th:href="@{/posts/new}">New Post</a></li>
       </ul>
       <div class="posts-container">
@@ -27,6 +27,7 @@
             Account First Name
           </h5>
           <h5 th:text="'Published on ' + ${post.createdAt}">Created At</h5>
+          <h5 th:text="'Last Updated on ' + ${post.updatedAt}">Updated At</h5>
           <p th:text="${post.body}">body text</p>
           <br />
         </div>

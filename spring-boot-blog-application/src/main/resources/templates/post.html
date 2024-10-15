@@ -18,6 +18,7 @@
           Account First Name
         </h5>
         <h5 th:text="'Created on' + ${post.createdAt}">Created At</h5>
+        <h5 th:text="'Last Updated on ' + ${post.updatedAt}">Updated At</h5>
         <p th:text="${post.body}">body text</p>
       </div>
       <ul sec:authorized="isAuthenticated()">
